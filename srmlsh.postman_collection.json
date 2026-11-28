@@ -1,0 +1,148 @@
+{
+  "info": {
+    "name": "SRM LSH",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081/srmlsh"
+    },
+    {
+      "key": "clientId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Consulter le client 1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/client/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "client",
+            "1"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Statut 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Client initial\", () => { const c = pm.response.json(); pm.expect(c.id).to.eql(1); pm.expect(c.nom_client).to.eql(\"EL IDRISSI Ghizlane\"); pm.expect(c.adresse).to.eql(\"Hay el fida 1, agadir\"); pm.expect(c.tele).to.eql(600000000); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ajouter un client",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/client",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "client"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nom_client\": \"Client Postman\",\n  \"adresse\": \"Laayoune\",\n  \"tele\": 600000001\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Statut 201\", () => pm.response.to.have.status(201));",
+              "pm.test(\"Client enregistré\", () => { const c = pm.response.json(); pm.expect(c.id).to.be.a(\"number\"); pm.expect(c.nom_client).to.eql(\"Client Postman\"); pm.collectionVariables.set(\"clientId\", c.id); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Supprimer le client ajouté",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/client/{{clientId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "client",
+            "{{clientId}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Statut 204\", () => pm.response.to.have.status(204));",
+              "pm.test(\"Réponse vide\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Consulter les demandes du client 2",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/demande/client/2",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "demande",
+            "client",
+            "2"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Statut 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Demande initiale et client associé\", () => { const d = pm.response.json(); pm.expect(d).to.have.lengthOf(1); pm.expect(d[0].reference).to.eql(\"SRM120/2026\"); pm.expect(d[0].type_demande).to.eql(\"Provisoire\"); pm.expect(d[0].description).to.eql(\"Première demande\"); pm.expect(d[0].client.id).to.eql(2); pm.expect(d[0].client.nom_client).to.eql(\"KAMALI Mohamed\"); pm.expect(d[0].date_demande).to.contain(\"2026-01-22\"); });"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

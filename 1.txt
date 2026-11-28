@@ -1,0 +1,58 @@
+I - Questions de cours
+
+1) IoC et injection des dépendances
+L'IoC confie à Spring la création et la gestion des objets. L'injection consiste à fournir à un objet les dépendances dont il a besoin. Les trois modes sont l'injection par constructeur, par setter et par attribut.
+
+2) Les couches d'une application Spring
+La présentation reçoit les requêtes et retourne les réponses. La couche métier réalise les traitements. La couche DAO accède aux données. Les entités représentent les données stockées en base.
+
+3) Ordre des étapes
+1. Configurer la datasource dans application.properties.
+2. Définir l'entité JPA et le repository.
+3. Ajouter la logique métier dans un service @Service et transactionnel.
+4. Écrire le contrôleur REST et les endpoints.
+5. Lancer l'application et tester via Postman ou curl.
+Ordre à inscrire dans les lignes du tableau : 2, 1, 4, 5, 3.
+
+4) Associations
+@SpringBootApplication : combine l'auto-configuration, le scan des composants et la configuration Spring.
+mappedBy : indique le champ propriétaire de la relation dans l'autre entité.
+CommandLineRunner : exécute du code une fois après l'initialisation du contexte Spring Boot.
+@RequestMapping : associe les requêtes web aux contrôleurs ou à leurs méthodes.
+@JsonIgnore : exclut une propriété de la sérialisation JSON.
+
+II - QCM
+
+1) Outil de création rapide d'une application Spring Boot
+B- Spring Initializr.
+
+2) Question absente ou coupée sur les photos fournies.
+
+3) Énoncé coupé sur les photos fournies ; réponse non déterminable.
+
+4) Propriété contenant l'URL de la base de données
+B- spring.datasource.url.
+
+5) Côté propriétaire d'une relation bidirectionnelle OneToMany / ManyToOne
+B- Le côté @ManyToOne.
+
+6) Paramètre présent dans le chemin de l'URL, comme /etudiants/1
+C- @PathVariable.
+
+7) H2 Database
+A- Une base de données relationnelle pouvant fonctionner en mémoire.
+
+8) save(user) avec un identifiant non nul déjà présent en base
+C- L'entité existante est mise à jour par merge.
+
+9) Injection recommandée pour les dépendances obligatoires
+D- Par constructeur.
+
+10) Principe de l'ORM
+A- Faire correspondre les objets métier aux tables d'une base relationnelle.
+
+11) findByEmail retournant un seul User si plusieurs utilisateurs ont cet email
+C- Une IncorrectResultSizeDataAccessException est levée.
+
+12) Champ à ne pas persister en JPA
+A- @Transient.
